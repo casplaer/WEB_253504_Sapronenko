@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Лабораторная 1";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/font-awesome/css/all.css" />
+
+</head>
+<body>
+    <main class="container">
+        <section>
+            <h1>Лабораторная работа 1</h1>
+            <h2>Список</h2>
+            <ol type="A">
+                <li>элемент 1 списка</li>
+                <li>элемент 2 списка</li>
+            </ol>
+            <hr />
+            <h2>Форма</h2>
+            <form method="post">
+                <input type="checkbox" style="margin-left:15%">Чек-бокс 1</input>
+                <br />
+                <input type="checkbox" style="margin-left:15%">Чек-бокс 2</input>
+                <br />
+                <br />
+                <input type="radio" style="margin-left:15%">Радио 1</input>
+                <input type="radio" style="margin-left:2%">Радио 2</input>
+                <input type="radio" style="margin-left:2%">Радио 3</input>
+                <br />
+                <label>Логин:</label>
+                <input style="margin-left:10%; width:700px; border-color:lightgray;border-radius:5px; height:37px" type="text" placeholder="Введите имя"/>
+                <br />
+                <br />
+                <label>Пароль:</label>
+                <input style="margin-left:10%; width:700px; border-color:lightgray;border-radius:5px; height:37px" type="password" placeholder="Введите пароль" />
+                <br />
+                <button style="background-color:darkcyan;color:white;height:40px;width:100px;border-radius:5px; border-width:0px;">Отправить</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
