@@ -7,8 +7,8 @@
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var cartInfo = "00,0 руб <i class='fa-solid fa-cart-shopping'></i> (0)";
-            return View("Default", cartInfo);
+            var cartInfo = "";
+            return View();
         }
     }
 }

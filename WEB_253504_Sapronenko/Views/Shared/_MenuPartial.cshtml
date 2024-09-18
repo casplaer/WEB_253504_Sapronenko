@@ -5,9 +5,9 @@
     ?? String.Empty;
 }
 
-<a class="navbar-brand" href="#">WebLabsV02</a>
+<a class="navbar-brand" asp-controller="Home" asp-action="Index">WebLabsV02</a>
 <div class="navbar-nav">
     <a class="nav-item nav-link @(controller=="home" ? "active" : "")" asp-controller="Home" asp-action="Index">Лб 1</a>
-    <a class="nav-item nav-link" asp-controller="Product" asp-action="Index">Каталог</a>
+    <a class="nav-item nav-link @(controller=="hero" ? "active" : "")" asp-controller="Hero" asp-action="Index">Каталог</a>
     <a class="nav-item nav-link" asp-area="Admin" asp-page="/Index">Администрирование</a>
 </div>
