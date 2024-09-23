@@ -1,11 +1,22 @@
 using WEB_253504_Sapronenko.UI.Extensions;
+using WEB_253504_Sapronenko.UI.Models;
+using WEB_253504_Sapronenko.UI.Services.CategoryService;
+using WEB_253504_Sapronenko.UI.Services.HeroService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAuthorization();
 builder.Services.AddRazorPages();
 
-builder.RegisterCustomServices();
+UriData.ApiUri = builder.Configuration.GetSection("UriData")["ApiUri"];
+
+builder.Services.AddHttpClient<ICategoryService, ApiCategoryService>(opt=>
+                                                        opt.BaseAddress=new Uri(UriData.ApiUri));
+
+builder.Services.AddHttpClient<IHeroService, ApiHeroService>(opt=>
+                                                        opt.BaseAddress=new Uri(UriData.ApiUri));
+
+//builder.RegisterCustomServices();
 
 var app = builder.Build();
 

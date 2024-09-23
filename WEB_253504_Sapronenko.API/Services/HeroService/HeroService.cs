@@ -41,11 +41,13 @@ namespace WEB_253504_Sapronenko.API.Services.HeroService
             var query = _context.Heroes.AsQueryable();
             var dataList = new ListModel<DotaHero>();
 
-            query = query
-            .Where(d => categoryNormalizedName == null
-            ||
-            d.Category.NormalizedName.Equals(categoryNormalizedName));
-           
+            if(categoryNormalizedName.ToLower() != "any")
+            {
+                query = query
+                .Where(d => categoryNormalizedName == null
+                ||
+                d.Category.NormalizedName.Equals(categoryNormalizedName));
+            }
 
             var count = await query.CountAsync(); //.Count();
             if (count == 0)

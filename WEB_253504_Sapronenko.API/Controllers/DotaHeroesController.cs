@@ -26,8 +26,8 @@ namespace WEB_253504_Sapronenko.API.Controllers
         }
 
         // GET: api/DotaHeroes
-        [HttpGet]
-        public async Task<ActionResult<ResponseData<List<DotaHero>>>> GetHeroes(string? category,
+        [HttpGet("{category}-dotaheroes/page{pageNo}")]
+        public async Task<ActionResult<ResponseData<List<DotaHero>>>> GetHeroes(string category,
                                                                                 int pageNo=1,
                                                                                 int pageSize=3)
         {

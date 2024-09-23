@@ -25,6 +25,8 @@ namespace WEB_253504_Sapronenko.API.Data
 
             context.Database.EnsureCreated();
 
+            context.Database.MigrateAsync();
+
             if (!context.Heroes.Any())
             {
                 var heroes = new List<DotaHero>
@@ -32,25 +34,25 @@ namespace WEB_253504_Sapronenko.API.Data
                     new DotaHero { 
                                     Name = "Juggernaut",
                                     Description = "Воин с острова масок.",
-                                    BaseDamage = 49, Image = $"{address}/wwwroot/Images/Juggernaut.jpg",
+                                    BaseDamage = 49, Image = $"{address}/Images/Juggernaut.jpg",
                                     Category=
                                     _categories.Find(c=>c.NormalizedName.Equals("agility"))},
                     new DotaHero {
                                     Name = "Pudge",
                                     Description = "Я как шаверма, если не повезло, будешь страдать...",
-                                    BaseDamage = 68, Image = $"{address}/wwwroot/Images/Pudge.jpg",
+                                    BaseDamage = 68, Image = $"{address}/Images/Pudge.jpg",
                                     Category=
                                     _categories.Find(c=>c.NormalizedName.Equals("strength"))},
                     new DotaHero {
                                     Name = "Keeper of the Light",
                                     Description = "На бледном жеребце скачет, мчит на защиту света искра бессчётных солнц, Эзалор.",
-                                    BaseDamage = 43, Image = $"{address}/wwwroot/Images/KOTL.jpg",
+                                    BaseDamage = 43, Image = $"{address}/Images/KOTL.jpg",
                                     Category=
                                     _categories.Find(c=>c.NormalizedName.Equals("intellect"))},
                     new DotaHero {
                                     Name = "Invoker",
                                     Description = "Cреди всех волшебников было всего одно, но гениальное и владеющее огромной памятью исключение, и имя ему — Invoker.",
-                                    BaseDamage = 39, Image = $"{address}/wwwroot/Images/Invoker.jpg",
+                                    BaseDamage = 39, Image = $"{address}/Images/Invoker.jpg",
                                     Category=
                                     _categories.Find(c=>c.NormalizedName.Equals("universal"))},
                 };
