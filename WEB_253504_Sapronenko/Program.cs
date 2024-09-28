@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using WEB_253504_Sapronenko.API.Data;
 using WEB_253504_Sapronenko.UI.Extensions;
 using WEB_253504_Sapronenko.UI.Models;
 using WEB_253504_Sapronenko.UI.Services.CategoryService;
@@ -15,6 +17,11 @@ builder.Services.AddHttpClient<ICategoryService, ApiCategoryService>(opt=>
 
 builder.Services.AddHttpClient<IHeroService, ApiHeroService>(opt=>
                                                         opt.BaseAddress=new Uri(UriData.ApiUri));
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("Default"));
+});
 
 //builder.RegisterCustomServices();
 
