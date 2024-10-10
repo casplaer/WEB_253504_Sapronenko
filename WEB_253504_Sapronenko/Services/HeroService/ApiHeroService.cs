@@ -25,9 +25,8 @@ namespace WEB_253504_Sapronenko.UI.Services.HeroService
             _pageSize = configuration.GetSection("ItemsPerPage").Value;
         }
 
-        public async Task<ResponseData<ListModel<DotaHero>>> GetHeroListAsync(string? categoryNormalizedName, int pageNo = 1)
+        public async Task<ResponseData<ListModel<DotaHero>>> GetHeroListAsync(string? categoryNormalizedName = default, int pageNo = 1)
         {
-            //throw new NotImplementedException();
             var url = new StringBuilder($"{_httpClient.BaseAddress.AbsoluteUri}dotaheroes/");
 
             if (categoryNormalizedName != null)
@@ -59,18 +58,34 @@ namespace WEB_253504_Sapronenko.UI.Services.HeroService
             return ResponseData<ListModel<DotaHero>>.Error($"Ошибка:{ response.StatusCode.ToString() }");
         }
 
-        public Task<ResponseData<DotaHero>> CreateHeroAsync(DotaHero hero, IFormFile? formFile)
+        public async Task<ResponseData<DotaHero>> CreateHeroAsync(DotaHero hero, IFormFile? formFile = default)
+        {
+            var url = new StringBuilder($"{_httpClient.BaseAddress.AbsoluteUri}");
+
+            var jsonHero = JsonSerializer.Serialize(hero);
+
+            var content = new StringContent(jsonHero, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync(url.ToString(), content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseData = await response.Content.ReadFromJsonAsync<ResponseData<DotaHero>>();
+                return responseData!;
+            }
+            else
+            {
+                return ResponseData<DotaHero>.Error($"Ошибка:{response.StatusCode.ToString()}");
+            }
+        }
+
+        public Task DeleteHeroAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteProductAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-
-        public Task UpdateHeroAsync(int id, DotaHero hero, IFormFile? formFile)
+        public Task UpdateHeroAsync(int id, DotaHero hero, IFormFile? formFile = default)
         {
             throw new NotImplementedException();
         }

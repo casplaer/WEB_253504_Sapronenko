@@ -5,18 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using WEB_253504_Sapronenko.API.Data;
 using WEB_253504_Sapronenko.Domain.Entites;
+using WEB_253504_Sapronenko.UI.Services.HeroService;
 
 namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
 {
     public class CreateModel : PageModel
     {
-        private readonly WEB_253504_Sapronenko.API.Data.AppDbContext _context;
+        [BindProperty]
+        public DotaHero DotaHero { get; set; }
+        private readonly IHeroService _heroService;
 
-        public CreateModel(WEB_253504_Sapronenko.API.Data.AppDbContext context)
+        public CreateModel(IHeroService heroService)
         {
-            _context = context;
+            _heroService = heroService;
         }
 
         public IActionResult OnGet()
@@ -25,9 +27,8 @@ namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
         }
 
         [BindProperty]
-        public DotaHero DotaHero { get; set; } = default!;
+        public DotaHero dotaHero { get; set; } = default!;
 
-        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -35,8 +36,7 @@ namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
                 return Page();
             }
 
-            _context.Heroes.Add(DotaHero);
-            await _context.SaveChangesAsync();
+            await _heroService.CreateHeroAsync(dotaHero);
 
             return RedirectToPage("./Index");
         }

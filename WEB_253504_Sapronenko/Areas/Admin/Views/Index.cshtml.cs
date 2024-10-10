@@ -5,25 +5,31 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using WEB_253504_Sapronenko.API.Data;
 using WEB_253504_Sapronenko.Domain.Entites;
+using WEB_253504_Sapronenko.Domain.Models;
+using WEB_253504_Sapronenko.UI.Services.HeroService;
 
 namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
 {
     public class IndexModel : PageModel
     {
-        private readonly WEB_253504_Sapronenko.API.Data.AppDbContext _context;
+        private readonly IHeroService _heroService;
 
-        public IndexModel(WEB_253504_Sapronenko.API.Data.AppDbContext context)
+        public IndexModel(IHeroService heroService)
         {
-            _context = context;
+            _heroService = heroService;
         }
 
-        public IList<DotaHero> DotaHero { get;set; } = default!;
+        public ListModel<DotaHero> DotaHero { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            DotaHero = await _context.Heroes.ToListAsync();
+            var heroes = new ListModel<DotaHero>
+            {
+                Items = _heroService.GetHeroListAsync().Result.Data.Items,
+                TotalPages = _heroService.GetHeroListAsync().Result.Data.TotalPages
+            };
+            DotaHero = heroes;
         }
     }
 }

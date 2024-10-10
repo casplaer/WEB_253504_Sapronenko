@@ -6,18 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WEB_253504_Sapronenko.API.Data;
 using WEB_253504_Sapronenko.Domain.Entites;
+using WEB_253504_Sapronenko.UI.Services.HeroService;
 
 namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
 {
     public class EditModel : PageModel
     {
-        private readonly WEB_253504_Sapronenko.API.Data.AppDbContext _context;
+        private readonly IHeroService _heroService;
 
-        public EditModel(WEB_253504_Sapronenko.API.Data.AppDbContext context)
+        public EditModel(IHeroService heroService)
         {
-            _context = context;
+            _heroService = heroService;
         }
 
         [BindProperty]
@@ -30,7 +30,8 @@ namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
                 return NotFound();
             }
 
-            var dotahero =  await _context.Heroes.FirstOrDefaultAsync(m => m.Id == id);
+            var allHeroes = _heroService.GetHeroListAsync();
+            var dotahero =  allHeroes.Result.Data.Items.FirstOrDefault(m => m.Id == id);
             if (dotahero == null)
             {
                 return NotFound();
@@ -39,8 +40,6 @@ namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -48,11 +47,9 @@ namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
                 return Page();
             }
 
-            _context.Attach(DotaHero).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _heroService.UpdateHeroAsync(DotaHero.Id, DotaHero);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -71,7 +68,7 @@ namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
 
         private bool DotaHeroExists(int id)
         {
-            return _context.Heroes.Any(e => e.Id == id);
+            return _heroService.GetHeroListAsync().Result.Data.Items.Any(e => e.Id == id);
         }
     }
 }

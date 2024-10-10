@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using WEB_253504_Sapronenko.API.Data;
 using WEB_253504_Sapronenko.Domain.Entites;
+using WEB_253504_Sapronenko.UI.Services.HeroService;
 
 namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
 {
     public class DetailsModel : PageModel
     {
-        private readonly WEB_253504_Sapronenko.API.Data.AppDbContext _context;
+        private readonly IHeroService _heroService;
 
-        public DetailsModel(WEB_253504_Sapronenko.API.Data.AppDbContext context)
+        public DetailsModel(IHeroService heroService)
         {
-            _context = context;
+            _heroService = heroService;
         }
 
         public DotaHero DotaHero { get; set; } = default!;
@@ -28,7 +28,9 @@ namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
                 return NotFound();
             }
 
-            var dotahero = await _context.Heroes.FirstOrDefaultAsync(m => m.Id == id);
+            var allHeroes = _heroService.GetHeroListAsync();
+            var dotahero = allHeroes.Result.Data.Items.FirstOrDefault(m => m.Id == id);
+
             if (dotahero == null)
             {
                 return NotFound();

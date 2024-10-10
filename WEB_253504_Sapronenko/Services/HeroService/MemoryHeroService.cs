@@ -59,7 +59,7 @@ namespace WEB_253504_Sapronenko.UI.Services.HeroService
             throw new NotImplementedException();
         }
 
-        public Task DeleteProductAsync(int id)
+        public Task DeleteHeroAsync(int id)
         {
             throw new NotImplementedException();
         }

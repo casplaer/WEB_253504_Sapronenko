@@ -50,8 +50,6 @@ namespace WEB_253504_Sapronenko.API.Controllers
             return dotaHero;
         }
 
-        // PUT: api/DotaHeroes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDotaHero(int id, DotaHero dotaHero)
         {
@@ -81,8 +79,6 @@ namespace WEB_253504_Sapronenko.API.Controllers
             return NoContent();
         }
 
-        // POST: api/DotaHeroes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<DotaHero>> PostDotaHero(DotaHero dotaHero)
         {
@@ -92,7 +88,6 @@ namespace WEB_253504_Sapronenko.API.Controllers
             return CreatedAtAction("GetDotaHero", new { id = dotaHero.Id }, dotaHero);
         }
 
-        // DELETE: api/DotaHeroes/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDotaHero(int id)
         {

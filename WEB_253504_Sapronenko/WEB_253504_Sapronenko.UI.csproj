@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WEB_253504_Sapronenko.API\WEB_253504_Sapronenko.API.csproj" />
     <ProjectReference Include="..\WEB_253504_Sapronenko.Domain\WEB_253504_Sapronenko.Domain.csproj" />
   </ItemGroup>
 

@@ -14,22 +14,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DotaHero[0].Name)
+                @Html.DisplayNameFor(model => model.DotaHero.Items[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DotaHero[0].Description)
+                @Html.DisplayNameFor(model => model.DotaHero.Items[0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DotaHero[0].BaseDamage)
+                @Html.DisplayNameFor(model => model.DotaHero.Items[0].BaseDamage)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DotaHero[0].Image)
+                @Html.DisplayNameFor(model => model.DotaHero.Items[0].Image)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.DotaHero) {
+@foreach (var item in Model.DotaHero.Items) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)

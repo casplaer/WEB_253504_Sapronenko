@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using WEB_253504_Sapronenko.API.Data;
 using WEB_253504_Sapronenko.Domain.Entites;
+using WEB_253504_Sapronenko.UI.Services.HeroService;
 
 namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
 {
     public class DeleteModel : PageModel
     {
-        private readonly WEB_253504_Sapronenko.API.Data.AppDbContext _context;
+        private readonly IHeroService _heroService;
 
-        public DeleteModel(WEB_253504_Sapronenko.API.Data.AppDbContext context)
+        public DeleteModel(IHeroService heroService)
         {
-            _context = context;
+            _heroService = heroService;
         }
 
         [BindProperty]
@@ -29,7 +29,8 @@ namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
                 return NotFound();
             }
 
-            var dotahero = await _context.Heroes.FirstOrDefaultAsync(m => m.Id == id);
+            var allHeroes = _heroService.GetHeroListAsync();
+            var dotahero = allHeroes.Result.Data.Items.FirstOrDefault(m => m.Id == id);
 
             if (dotahero == null)
             {
@@ -49,12 +50,12 @@ namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
                 return NotFound();
             }
 
-            var dotahero = await _context.Heroes.FindAsync(id);
+            var allHeroes = _heroService.GetHeroListAsync();
+            var dotahero = allHeroes.Result.Data.Items.Find(dh=>dh.Id == id);
             if (dotahero != null)
             {
                 DotaHero = dotahero;
-                _context.Heroes.Remove(DotaHero);
-                await _context.SaveChangesAsync();
+                _heroService.DeleteHeroAsync(DotaHero.Id);
             }
 
             return RedirectToPage("./Index");
