@@ -30,10 +30,11 @@ namespace WEB_253504_Sapronenko.API.Services.HeroService
 
         public Task<ResponseData<DotaHero>> GetHeroByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var hero = _context.Heroes.Where(a => a.Id == id).First();
+            return Task.FromResult(ResponseData<DotaHero>.Success(hero));
         }
 
-        public async Task<ResponseData<ListModel<DotaHero>>> GetHeroListAsync(string? categoryNormalizedName, int pageNo = 1, int pageSize = 3)
+        public async Task<ResponseData<ListModel<DotaHero>>> GetHeroListAsync(string? categoryNormalizedName, int pageNo = 0, int pageSize = 3)
         {
             if (pageSize > _maxPageSize)
                 pageSize = _maxPageSize;
@@ -49,7 +50,7 @@ namespace WEB_253504_Sapronenko.API.Services.HeroService
                 d.Category.NormalizedName.Equals(categoryNormalizedName));
             }
 
-            var count = await query.CountAsync(); //.Count();
+            var count = await query.CountAsync();
             if (count == 0)
             {
                 return ResponseData<ListModel<DotaHero>>.Success(dataList);
@@ -59,13 +60,17 @@ namespace WEB_253504_Sapronenko.API.Services.HeroService
             if (pageNo > totalPages)
                 return ResponseData<ListModel<DotaHero>>.Error("No such page");
 
-            dataList.Items = await query
-            .OrderBy(d => d.Id)
-            .Skip((pageNo - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
+            if(pageNo != 0)
+                dataList.Items = await query
+                .OrderBy(d => d.Id)
+                .Skip((pageNo - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            else dataList.Items = await query
+                .OrderBy(d => d.Id)
+                .ToListAsync();
 
-            dataList.CurrentPage = pageNo;
+            dataList.CurrentPage = pageNo == 0 ? 1 : pageNo;
             dataList.TotalPages = totalPages;
 
             return ResponseData<ListModel<DotaHero>>.Success(dataList);

@@ -11,40 +11,56 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="DotaHero.Id" />
+            <input type="hidden" asp-for="DotaHero.Image" />
+
             <div class="form-group">
                 <label asp-for="DotaHero.Name" class="control-label"></label>
                 <input asp-for="DotaHero.Name" class="form-control" />
                 <span asp-validation-for="DotaHero.Name" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="DotaHero.Description" class="control-label"></label>
                 <input asp-for="DotaHero.Description" class="form-control" />
                 <span asp-validation-for="DotaHero.Description" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="DotaHero.BaseDamage" class="control-label"></label>
                 <input asp-for="DotaHero.BaseDamage" class="form-control" />
                 <span asp-validation-for="DotaHero.BaseDamage" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="DotaHero.Image" class="control-label"></label>
-                <input asp-for="DotaHero.Image" class="form-control" />
-                <span asp-validation-for="DotaHero.Image" class="text-danger"></span>
+                <label asp-for="DotaHero.Category" class="control-label"></label>
+                <select asp-for="DotaHero.CategoryId" class="form-control" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))"></select>
+                <span asp-validation-for="DotaHero.CategoryId" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="DotaHero.Image" class="control-label">Current Image</label>
+                @if (!string.IsNullOrEmpty(Model.DotaHero.Image))
+                {
+                    <img src="@Model.DotaHero.Image" alt="Hero Image" style="width: 200px; height: auto;" />
+                }
+            </div>
+
+            <div class="form-group">
+                <label asp-for="file" class="control-label">Change Image</label>
+                <input asp-for="file" type="file" class="form-control" />
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+
     </div>
 </div>
 
 <div>
     <a asp-page="./Index">Back to List</a>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

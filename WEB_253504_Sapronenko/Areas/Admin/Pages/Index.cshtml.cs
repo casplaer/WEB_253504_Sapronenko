@@ -20,16 +20,11 @@ namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
             _heroService = heroService;
         }
 
-        public ListModel<DotaHero> DotaHero { get;set; } = default!;
+        public IList<DotaHero> DotaHero { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            var heroes = new ListModel<DotaHero>
-            {
-                Items = _heroService.GetHeroListAsync().Result.Data.Items,
-                TotalPages = _heroService.GetHeroListAsync().Result.Data.TotalPages
-            };
-            DotaHero = heroes;
+            DotaHero = (await _heroService.GetHeroListAsync(null, 0)).Data!.Items;
         }
     }
 }

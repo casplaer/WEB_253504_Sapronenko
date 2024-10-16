@@ -1,0 +1,56 @@
+﻿@page
+@model WEB_253504_Sapronenko.UI.Areas.Admin.Views.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DotaHero[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DotaHero[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DotaHero[0].BaseDamage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DotaHero[0].Image)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.DotaHero)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BaseDamage)
+                </td>
+                <td>
+                    <img src="@item.Image" alt="Hero Image" style="width: 200px" />
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
