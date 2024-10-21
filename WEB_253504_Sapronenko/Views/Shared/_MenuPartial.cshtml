@@ -13,5 +13,8 @@
 <div class="navbar-nav">
     <a class="nav-item nav-link @(controller=="home" ? "active" : "")" asp-controller="Home" asp-action="Index">Лб 1</a>
     <a class="nav-item nav-link @(controller=="hero" ? "active" : "")" asp-controller="Hero" asp-action="Index">Каталог</a>
-    <a class="nav-item nav-link @(area == "admin" ? "active" : "")" asp-area="Admin" asp-page="/Index">Администрирование</a>
+    @if(User.IsInRole("POWER-USER"))
+    {
+        <a class="nav-item nav-link @(area == "admin" ? "active" : "")" asp-area="Admin" asp-page="/Index">Администрирование</a>
+    }
 </div>

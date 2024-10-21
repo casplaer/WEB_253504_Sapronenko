@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Options;
 using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
-using WEB_253504_Sapronenko.UI.Interfaces;
+using WEB_253504_Sapronenko.UI.HelperClasses;
 
-namespace WEB_253504_Sapronenko.UI.HelperClasses
+namespace WEB_253504_Sapronenko.UI.Services.Authentication
 {
     public class KeycloakTokenAccessor : ITokenAccessor
     {
@@ -42,7 +42,7 @@ namespace WEB_253504_Sapronenko.UI.HelperClasses
                 throw new HttpRequestException(response.StatusCode.ToString());
             }
             var jsonString = await response.Content.ReadAsStringAsync();
-            return JsonObject.Parse(jsonString)["access_token"].GetValue<string>();
+            return JsonNode.Parse(jsonString)["access_token"].GetValue<string>();
         }
 
         public async Task SetAuthorizationHeaderAsync(HttpClient httpClient)
@@ -50,7 +50,7 @@ namespace WEB_253504_Sapronenko.UI.HelperClasses
             string token = await GetAccessTokenAsync();
             httpClient
             .DefaultRequestHeaders
-            .Authorization = new AuthenticationHeaderValue("bearer", token); ;
+            .Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
     }
 }

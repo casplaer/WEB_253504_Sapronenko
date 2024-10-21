@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WEB_253504_Sapronenko.Domain.Entites;
 using WEB_253504_Sapronenko.UI.Services.HeroService;
 
-namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
+namespace WEB_253504_Sapronenko.UI.Areas.Admin.Pages
 {
     public class DetailsModel : PageModel
     {

@@ -43,7 +43,7 @@ namespace WEB_253504_Sapronenko.API.Controllers
                                                           pageSize));
         }
 
-        [Authorize]
+        [Authorize(Roles = "POWER-USER")]
         [HttpGet("{id}")]
         public async Task<ResponseData<DotaHero>> GetDotaHero(int id)
         {

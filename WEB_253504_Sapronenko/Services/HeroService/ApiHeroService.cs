@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using WEB_253504_Sapronenko.Domain.Entites;
 using WEB_253504_Sapronenko.Domain.Models;
-using WEB_253504_Sapronenko.UI.Interfaces;
+using WEB_253504_Sapronenko.UI.Services.Authentication;
 using WEB_253504_Sapronenko.UI.Services.FileService;
 
 namespace WEB_253504_Sapronenko.UI.Services.HeroService
@@ -59,7 +59,16 @@ namespace WEB_253504_Sapronenko.UI.Services.HeroService
             if(pageNo == 0)
                 url = new StringBuilder($"{_httpClient.BaseAddress.AbsoluteUri}dotaheroes/");
 
+            var requestHeaders = _httpClient.DefaultRequestHeaders;
+
+            if (requestHeaders.Authorization == null)
+            {
+                return ResponseData<ListModel<DotaHero>>.Error("Authorization token is missing.");
+            }
+
             var response = await _httpClient.GetAsync(new Uri(url.ToString()));
+
+
 
             if (response.IsSuccessStatusCode)
             {

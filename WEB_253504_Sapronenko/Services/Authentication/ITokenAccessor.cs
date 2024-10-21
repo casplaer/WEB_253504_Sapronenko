@@ -1,4 +1,4 @@
-﻿namespace WEB_253504_Sapronenko.UI.Interfaces
+﻿namespace WEB_253504_Sapronenko.UI.Services.Authentication
 {
     public interface ITokenAccessor
     {
