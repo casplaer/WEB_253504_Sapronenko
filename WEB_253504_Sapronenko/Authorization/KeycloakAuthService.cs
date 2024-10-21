@@ -41,7 +41,7 @@ namespace WEB_253504_Sapronenko.UI.Authorization
                 {
                     return (false, ex.Message);
                 }
-                var avatarUrl = "/default-profile-image.png";
+                var avatarUrl = "https://localhost:7002/Images/default-profile-image.png";
                 if (avatar != null)
                 {
                     var result = await _fileService.SaveFileAsync(avatar);
