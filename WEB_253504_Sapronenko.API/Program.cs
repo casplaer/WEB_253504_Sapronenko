@@ -1,14 +1,30 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using WEB_253504_Sapronenko.API.Data;
+using WEB_253504_Sapronenko.API.Models;
 using WEB_253504_Sapronenko.API.Services.CategoryService;
 using WEB_253504_Sapronenko.API.Services.HeroService;
 
 var builder = WebApplication.CreateBuilder(args);
+var authServer = builder.Configuration
+.GetSection("AuthServer")
+.Get<AuthServerData>();
 
-// Add services to the container.
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, o =>
+{
+    o.MetadataAddress = $"{authServer.Host}/realms/{authServer.Realm}/.wellknown/openid-configuration";
+    o.Authority = $"{authServer.Host}/realms/{authServer.Realm}";
+    o.Audience = "account";
+    o.RequireHttpsMetadata = false;
+});
+
+builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy("admin", p => p.RequireRole("POWER-USER"));
+});
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -48,5 +64,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();

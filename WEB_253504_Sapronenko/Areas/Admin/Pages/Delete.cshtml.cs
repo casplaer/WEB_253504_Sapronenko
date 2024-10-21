@@ -1,18 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using WEB_253504_Sapronenko.Domain.Entites;
+using WEB_253504_Sapronenko.UI.Services.FileService;
 using WEB_253504_Sapronenko.UI.Services.HeroService;
 
-namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
+namespace WEB_253504_Sapronenko.UI.Areas.Admin.Pages
 {
     public class DeleteModel : PageModel
     {
         private readonly IHeroService _heroService;
-
-        public DeleteModel(IHeroService heroService)
+        private readonly IFileService _fileService;
+        public DeleteModel(IHeroService heroService, IFileService fileService)
         {
             _heroService = heroService;
+            _fileService = fileService;
         }
 
         [BindProperty]
@@ -50,6 +51,7 @@ namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
             if (dotahero != null)
             {
                 DotaHero = dotahero;
+                await _fileService.DeleteFileAsync(dotahero.Image!);
                 await _heroService.DeleteHeroAsync(id ?? 0);
             }
 

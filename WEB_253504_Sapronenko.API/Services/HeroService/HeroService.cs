@@ -18,14 +18,20 @@ namespace WEB_253504_Sapronenko.API.Services.HeroService
             _context = context;
         }
 
-        public Task<ResponseData<DotaHero>> CreateHeroAsync(DotaHero hero, IFormFile? formFile)
+        public async Task<ResponseData<DotaHero>> CreateHeroAsync(DotaHero hero)
         {
-            throw new NotImplementedException();
+            _context.Entry(hero.Category).State = EntityState.Unchanged;
+
+            await _context.Heroes.AddAsync(hero);
+            await _context.SaveChangesAsync();
+            return ResponseData<DotaHero>.Success(hero);
         }
 
-        public Task DeleteProductAsync(int id)
+        public Task DeleteHeroAsync(int id)
         {
-            throw new NotImplementedException();
+            var toRemove = _context.Heroes.Where(dh => dh.Id == id).First();
+            _context.Heroes.Remove(toRemove);
+            return Task.FromResult(_context.SaveChanges());
         }
 
         public Task<ResponseData<DotaHero>> GetHeroByIdAsync(int id)
@@ -55,7 +61,6 @@ namespace WEB_253504_Sapronenko.API.Services.HeroService
             {
                 return ResponseData<ListModel<DotaHero>>.Success(dataList);
             }
-            // количество страниц
             int totalPages = (int)Math.Ceiling(count / (double)pageSize);
             if (pageNo > totalPages)
                 return ResponseData<ListModel<DotaHero>>.Error("No such page");
@@ -79,7 +84,8 @@ namespace WEB_253504_Sapronenko.API.Services.HeroService
 
         public Task UpdateHeroAsync(int id, DotaHero hero, IFormFile? formFile)
         {
-            throw new NotImplementedException();
+            _context.Heroes.Attach(hero).State = EntityState.Modified;
+            return Task.FromResult(_context.SaveChanges());
         }
     }
 }

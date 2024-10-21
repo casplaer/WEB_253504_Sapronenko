@@ -2,6 +2,19 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+@{
+    var name = @User
+    .Claims
+    .FirstOrDefault(c => c.Type.Equals("preferred_username",
+    StringComparison.OrdinalIgnoreCase))?
+     .Value;
+    var avatar = @User
+    .Claims
+    .FirstOrDefault(c => c.Type.Equals("avatar",
+    StringComparison.OrdinalIgnoreCase))?
+     .Value;
+}
+
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {

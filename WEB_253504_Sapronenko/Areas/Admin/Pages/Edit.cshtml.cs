@@ -4,12 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WEB_253504_Sapronenko.Domain.Entites;
 using WEB_253504_Sapronenko.UI.Services.CategoryService;
 using WEB_253504_Sapronenko.UI.Services.HeroService;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WEB_253504_Sapronenko.UI.Areas.Admin.Views
 {

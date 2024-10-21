@@ -11,8 +11,8 @@ namespace WEB_253504_Sapronenko.API.Services.HeroService
 
         public Task UpdateHeroAsync(int id, DotaHero hero, IFormFile? formFile);
 
-        public Task DeleteProductAsync(int id);
+        public Task DeleteHeroAsync(int id);
 
-        public Task<ResponseData<DotaHero>> CreateHeroAsync(DotaHero hero, IFormFile? formFile);
+        public Task<ResponseData<DotaHero>> CreateHeroAsync(DotaHero hero);
     }
 }
