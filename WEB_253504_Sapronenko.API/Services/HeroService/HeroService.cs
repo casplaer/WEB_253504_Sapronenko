@@ -8,13 +8,11 @@ namespace WEB_253504_Sapronenko.API.Services.HeroService
 {
     public class HeroService : IHeroService
     {
-        private readonly int _maxPageSize = 20;
+        private readonly int _maxPageSize = 5;
         private readonly AppDbContext _context;
-        private readonly List<Category> _categories;
 
-        public HeroService(ICategoryService categoryService, AppDbContext context)
+        public HeroService(AppDbContext context)
         {
-            _categories = categoryService.GetCategoriesAsync().Result.Data;
             _context = context;
         }
 

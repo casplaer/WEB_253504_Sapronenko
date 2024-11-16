@@ -1,23 +1,26 @@
-﻿@* @await Component.InvokeAsync("Cart"); *@
-
+﻿@using WEB_253504_Sapronenko.UI.Extensions
 @{
-    var name = @User
-    .Claims
-    .FirstOrDefault(c => c.Type.Equals("preferred_username",
-    StringComparison.OrdinalIgnoreCase))?
-     .Value;
-    var avatar = @User
-    .Claims
-    .FirstOrDefault(c => c.Type.Equals("avatar",
-    StringComparison.OrdinalIgnoreCase))?
-     .Value;
+	var name = @User
+	.Claims
+	.FirstOrDefault(c => c.Type.Equals("preferred_username",
+	StringComparison.OrdinalIgnoreCase))?
+		.Value;
+	var avatar = @User
+	.Claims
+	.FirstOrDefault(c => c.Type.Equals("avatar",
+	StringComparison.OrdinalIgnoreCase))?
+		.Value;
+
+	var cart = Context.Session.GetCart("cart");
 
 	var isAuthenticated = User.Identity!.IsAuthenticated;
 }
 
 @if (isAuthenticated)
 {
-	@await Component.InvokeAsync("Cart");
+	<a class="navbar-text ms-auto" asp-controller="Cart" asp-action="Index">
+		@await Component.InvokeAsync("CartComponent", cart)
+	</a>
 	<div class="dropdown ms-4 nav-color">
 		<button class="btn btn-secondary dropdown-toggle"
 				type="button" id="dropdownMenuButton"

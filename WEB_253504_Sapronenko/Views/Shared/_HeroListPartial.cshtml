@@ -1,0 +1,28 @@
+﻿@{
+}
+@model WEB_253504_Sapronenko.Domain.Models.ListModel<DotaHero>
+
+<div class="row">
+    @foreach (var item in Model.Items)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card" style="width: 23rem; height: 30rem;">
+                <img src="@item.Image" class="card-img-top" alt="@item.Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text">@item.Description</p>
+                    <p class="card-text"><strong>Базовый урон:</strong> @item.BaseDamage</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a class="btn" asp-controller="Cart" asp-action="Add" asp-route-id="@item.Id" asp-route-returnUrl="@(ViewContext.HttpContext.Request.Path + ViewContext.HttpContext.Request.QueryString.ToUriComponent())">Добавить плакат в корзину</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<pager current-page="Model.CurrentPage"
+       total-pages="Model.TotalPages"
+       action="Index"
+       controller="Hero">
+</pager>

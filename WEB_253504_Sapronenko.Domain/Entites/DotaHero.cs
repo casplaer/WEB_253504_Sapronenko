@@ -15,5 +15,6 @@ namespace WEB_253504_Sapronenko.Domain.Entites
         public Category? Category { get; set; }
         public int CategoryId { get; set; }
         public string? Image {  get; set; } = string.Empty;
+        public double Price { get; set; } = 9.99;
     }
 }

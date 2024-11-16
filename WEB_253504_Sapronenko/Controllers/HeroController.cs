@@ -3,9 +3,11 @@ using WEB_253504_Sapronenko.Domain.Entites;
 using WEB_253504_Sapronenko.Domain.Models;
 using WEB_253504_Sapronenko.UI.Services.CategoryService;
 using WEB_253504_Sapronenko.UI.Services.HeroService;
+using WEB_253504_Sapronenko.UI.Extensions;
 
 namespace WEB_253504_Sapronenko.UI.Controllers
 {
+    [Route("Hero")]
     public class HeroController : Controller
     {
         private readonly IHeroService _heroService;
@@ -17,6 +19,8 @@ namespace WEB_253504_Sapronenko.UI.Controllers
             _categoryService = categoryService;
         }
 
+        [HttpGet("")]
+        [HttpGet("{category}")]
         public async Task<IActionResult> Index(string? category, int pageNo = 1)
         {
             switch(category)
@@ -28,7 +32,7 @@ namespace WEB_253504_Sapronenko.UI.Controllers
                 case "strength":
                     ViewBag.currentCategory = "Сила";
                     break;
-
+                    
                 case "intellect":
                     ViewBag.currentCategory = "Интеллект";
                     break;
@@ -53,7 +57,12 @@ namespace WEB_253504_Sapronenko.UI.Controllers
 
             ViewBag.categories = categoryResponse.Data;
 
-            var heroes = new ListModel<DotaHero> { Items = heroResponse.Data.Items, TotalPages = heroResponse.Data.TotalPages, CurrentPage = pageNo };
+            var heroes = new ListModel<DotaHero> { Items = heroResponse.Data!.Items, TotalPages = heroResponse.Data.TotalPages, CurrentPage = pageNo };
+
+/*            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_HeroListPartial", heroes);
+            }*/
 
             return View(heroes);
         }

@@ -1,4 +1,20 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("click", function(event) {
+        if (event.target.classList.contains("page-link")) {
+            event.preventDefault();
 
-// Write your JavaScript code.
+            const url = event.target.getAttribute("href");
+
+            fetch(url, {
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest" 
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector("#heroListContainer").innerHTML = data;
+            })
+            .catch(error => console.error("Ошибка загрузки данных:", error));
+        }
+    });
+});

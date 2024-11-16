@@ -32,7 +32,6 @@ namespace WEB_253504_Sapronenko.API.Controllers
             return Ok(await _heroService.GetHeroListAsync("any", 0));
         }
 
-        [Authorize]
         [HttpGet("{category}-dotaheroes/page{pageNo}")]
         public async Task<ActionResult<ResponseData<List<DotaHero>>>> GetHeroes(string category,
                                                                                 int pageNo=1,

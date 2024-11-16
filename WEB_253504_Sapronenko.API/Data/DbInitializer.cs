@@ -23,7 +23,8 @@ namespace WEB_253504_Sapronenko.API.Data
             using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            context.Database.EnsureCreated();
+            await context.Database.EnsureCreatedAsync();
+            await context.Database.MigrateAsync();
 
             if (!context.Heroes.Any())
             {

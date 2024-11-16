@@ -1,0 +1,3 @@
+﻿﻿<a asp-controller="Cart" asp-action="Index">
+    $@(Model == null ? 0 : Model.TotalPrice) <i class="fa-solid fa-cart-shopping"></i> (@(Model == null ? 0 : Model.Count))
+</a>

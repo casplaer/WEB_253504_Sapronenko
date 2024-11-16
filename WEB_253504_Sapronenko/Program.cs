@@ -8,6 +8,7 @@ using WEB_253504_Sapronenko.UI.Services.Authentication;
 using WEB_253504_Sapronenko.UI.Services.CategoryService;
 using WEB_253504_Sapronenko.UI.Services.FileService;
 using WEB_253504_Sapronenko.UI.Services.HeroService;
+using WEB_253504_Sapronenko.UI.Services.SessionService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,14 +31,21 @@ builder.Services.AddHttpClient<IHeroService, ApiHeroService>(opt=>
 builder.Services.AddHttpClient<IFileService, ApiFileService>(opt =>
                                                         opt.BaseAddress = new Uri(UriData.ApiUri));
 
+builder.Services.AddScoped<ISessionCartService, SessionCartService>();
+
 builder.Services
     .AddHttpClient<IAuthService, KeycloakAuthService>(opt => opt.BaseAddress = new Uri(UriData.ApiUri));
 
 builder.Services
     .Configure<KeycloakData>(builder.Configuration.GetSection("Keycloak"));
 
-
-
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(30);
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
+});
 
 var keycloakData = builder.Configuration.GetSection("Keycloak").Get<KeycloakData>();
 
@@ -81,6 +89,8 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.UseRouting();
 

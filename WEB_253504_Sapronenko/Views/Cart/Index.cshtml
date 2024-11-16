@@ -1,0 +1,64 @@
+﻿@model WEB_253504_Sapronenko.Domain.Models.Cart
+
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<h1>Корзина</h1>
+<table class="table">
+    @if(Model == null)
+    {
+        <h1>Корзина пуста, добавьте новые товары в каталоге.</h1>
+    }
+    else
+    {
+    <thead>
+        <tr>
+            <th>
+                Image
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartItems[0].Item.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartItems[0].Item.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartItems[0].Item.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CartItems[0].Count)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>
+                        <img src="@item.Value.Item.Image" alt="pic" style="width: 200px" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value.Item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value.Item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value.Item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value.Count)
+                    </td>
+                    <td>
+                        <form asp-controller="cart" asp-action="delete" asp-route-id="@item.Value.Item.Id">
+                            <input type="hidden" name="returnUrl" value="@(ViewContext.HttpContext.Request.Path + ViewContext.HttpContext.Request.QueryString.ToUriComponent())" />
+                            <input type="submit" value="Delete" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    }
+</table>

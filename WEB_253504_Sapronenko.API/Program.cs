@@ -50,7 +50,6 @@ var app = builder.Build();
 
 await DbInitializer.SeedData(app);
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
