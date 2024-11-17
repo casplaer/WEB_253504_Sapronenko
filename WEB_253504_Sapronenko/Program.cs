@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Serilog;
 using WEB_253504_Sapronenko.UI.Authorization;
 using WEB_253504_Sapronenko.UI.HelperClasses;
+using WEB_253504_Sapronenko.UI.Middleware;
 using WEB_253504_Sapronenko.UI.Models;
 using WEB_253504_Sapronenko.UI.Services.Authentication;
 using WEB_253504_Sapronenko.UI.Services.CategoryService;
@@ -12,6 +14,17 @@ using WEB_253504_Sapronenko.UI.Services.SessionService;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddSerilog();
+
+builder.Host.UseSerilog();
+
+Log.Logger.Information("[Started logging...]");
 
 builder.Services.AddHttpClient<ITokenAccessor, KeycloakTokenAccessor>();
 
@@ -86,6 +99,8 @@ else
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
+app.UseMiddleware<LoggingMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

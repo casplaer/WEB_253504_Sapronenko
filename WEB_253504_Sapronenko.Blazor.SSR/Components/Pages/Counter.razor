@@ -1,0 +1,52 @@
+﻿@page "/counter/{initialcount:int?}"
+@using System.ComponentModel.DataAnnotations
+@using WEB_253504_Sapronenko.Blazor.SSR.Models
+@rendermode InteractiveServer
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+@if (InitialCount.HasValue)
+{
+    currentCount = InitialCount ?? currentCount;
+    InitialCount = null;
+    <p role="status">Current count: @currentCount</p>
+}
+else
+{
+    <p role="status">Current count: @currentCount</p>
+}
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<EditForm Model="@userModel" OnValidSubmit="@SetCount">
+    <DataAnnotationsValidator />
+
+    <div>
+        <label for="count">Count:</label>
+        <InputNumber id="count" @bind-Value="userModel.Count" class="form-control" />
+        <ValidationMessage For="@(() => userModel.Count)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    private CounterModel userModel = new CounterModel();
+
+    [Parameter]
+    public int? InitialCount { get; set; }
+
+    private int currentCount;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    private void SetCount()
+    {
+        currentCount = userModel.Count;
+    }
+}

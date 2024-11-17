@@ -1,0 +1,35 @@
+﻿@page "/herolist"
+@using Microsoft.AspNetCore.Authorization
+@using WEB_253504_Sapronenko.BlazorWasm.Services
+@using WEB_253504_Sapronenko.Domain.Entites
+@attribute [Authorize]
+
+@if (@DataService.Heroes == null || DataService.Categories == null)
+{
+	<span>Loading...</span>
+}
+else {
+	<CategorySelector DataService="DataService"/>
+	<HeroListBlock DataService="DataService" HeroSelected="SelectHero"/>
+	<Pager DataService="DataService"/>
+	<HeroDetails Hero="Hero"></HeroDetails>
+}
+
+@code {
+	[Inject]
+	public IDataService DataService { get; set; }
+
+	public DotaHero? Hero { get; set; }
+
+	public void SelectHero(DotaHero dotaHero)
+	{
+		Hero = dotaHero;
+		StateHasChanged();
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		await DataService.GetProductListAsync(1);
+		await DataService.GetCategoryListAsync();
+	}
+}

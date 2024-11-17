@@ -7,7 +7,7 @@ using WEB_253504_Sapronenko.UI.Services.SessionService;
 
 namespace WEB_253504_Sapronenko.UI.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = null)]
     public class CartController : Controller
     {
 

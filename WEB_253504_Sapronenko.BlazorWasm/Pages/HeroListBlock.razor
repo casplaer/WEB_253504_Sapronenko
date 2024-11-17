@@ -1,0 +1,50 @@
+﻿@using WEB_253504_Sapronenko.Domain.Entites
+@implements IDisposable
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Descrription</th>
+            <th>Price</th>
+            <th>Info</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var entry in DataService.Heroes)
+        {
+            <tr>
+                <td>@entry.Name</td>
+                <td>@entry.Description</td>
+                <td>@entry.Price</td>
+                <td>
+                    <button type="button" class="btn btn-outline-info" @onclick="() => SelectAutomobile(entry)">View info</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public IDataService DataService { get; set; }
+
+    [Parameter]
+    public EventCallback<DotaHero> HeroSelected { get; set; }
+
+    private void SelectAutomobile(DotaHero automobile)
+    {
+        HeroSelected.InvokeAsync(automobile);
+    }
+
+    protected override void OnInitialized()
+    {
+        DataService.DataLoaded += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        DataService.DataLoaded -= StateHasChanged;
+    }
+
+}

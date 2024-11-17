@@ -1,0 +1,27 @@
+﻿﻿@using WEB_253504_Sapronenko.Domain.Entites
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        @(DataService.SelectedCategory == null ? "All" : DataService.SelectedCategory.Name)
+    </button>
+    <ul class="dropdown-menu">
+        <li><span class="dropdown-item" href="#" @onclick="(() => SetCurrentCategory(null))">All</span></li>
+        @foreach (var category in DataService.Categories)
+        {
+            <li><span class="dropdown-item" @onclick="(() => SetCurrentCategory(category))">@category.Name</span></li>
+        }
+    </ul>
+
+
+</div>
+
+@code {
+    [Parameter]
+    public IDataService DataService { get; set; }
+
+    public async void SetCurrentCategory(Category? category)
+    {
+        DataService.SelectedCategory = category;
+        await DataService.GetProductListAsync();
+    }
+}

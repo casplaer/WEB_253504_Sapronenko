@@ -1,0 +1,20 @@
+﻿@using WEB_253504_Sapronenko.Domain.Entites
+
+@if (Hero != null)
+{
+    <div class="card" style="width: 100%;">
+        <img class="card-img-top" src="@(Hero.Image)"/>
+        <div class="card-body">
+            <h5 class="card-title">@Hero.Name</h5>
+            <span class="badge bg-secondary">$@Hero.Price</span>
+            <p class="card-text">@Hero.Description</p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public DotaHero? Hero { get; set; }
+
+
+}

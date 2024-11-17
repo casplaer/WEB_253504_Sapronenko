@@ -1,0 +1,48 @@
+﻿@implements IDisposable
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        @if(DataService.CurrentPage != 1)
+        {
+            <li class="page-item">
+                <span class="page-link" @onclick="(() => SetCurrentPage(--DataService.CurrentPage))" aria-label="Next">
+                    <span aria-hidden="true">&laquo;</span>
+                </span>
+            </li>
+        }
+        @for(int i = 0; i < DataService.TotalPages; i++)
+        {
+            var tmp = i;
+            <li class="page-item @(DataService.CurrentPage == tmp+1 ? "active" : "")"><span class="page-link" @onclick="(() => SetCurrentPage(tmp+1))">@(i + 1)</span></li>
+        }
+        @if (DataService.CurrentPage != DataService.TotalPages)
+        {
+            <li class="page-item">
+                <span class="page-link" @onclick="(() => SetCurrentPage(++DataService.CurrentPage))" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </span>
+            </li>
+        }
+    </ul>
+</nav>
+
+@code {
+    [Parameter]
+    public IDataService DataService { get; set; }
+
+    protected override void OnInitialized()
+    {
+        DataService.DataLoaded += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        DataService.DataLoaded -= StateHasChanged;
+    }
+
+    public async void SetCurrentPage(int pageno)
+    {
+        DataService.CurrentPage = pageno;
+        await DataService.GetProductListAsync(pageno);
+    }
+}
